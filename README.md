@@ -13,15 +13,24 @@ npm i toggle-targets
 Something along these lines.
 
 ```html
-<a href="#" data-toggle-target="#target" data-toggle-focus="#target input"></a>
-<div id="target" class="targets">
+<a
+  href="#"
+  data-toggle-target="#target"
+  data-toggle-focus="#target input"
+  data-toggle-set
+  >Toggle</a
+>
+<div id="target" class="toggle-targets">
   <input />
 </div>
 ```
 
 ```scss
-.targets {
+.toggle-targets {
   display: none;
+  &.active {
+    display: block;
+  }
 }
 ```
 

@@ -5,7 +5,7 @@ Toggle another element by data attribute.
 ## Install
 
 ```bash
-npm i @thetechdept/shopify-bones-parse-video-src
+npm i toggle-targets
 ```
 
 ### HTML

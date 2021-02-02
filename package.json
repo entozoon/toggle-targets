@@ -1,8 +1,8 @@
 {
   "name": "toggle-targets",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Toggle another element by data attribute",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "start": "tsc -w"
   },

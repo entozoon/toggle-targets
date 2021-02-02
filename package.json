@@ -1,0 +1,22 @@
+{
+  "name": "toggle-targets",
+  "version": "1.0.0",
+  "description": "Toggle another element by data attribute",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/entozoon/toggle-targets.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/entozoon/toggle-targets/issues"
+  },
+  "homepage": "https://github.com/entozoon/toggle-targets#readme",
+  "dependencies": {
+    "typescript": "^4.1.3"
+  }
+}

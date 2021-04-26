@@ -28,7 +28,7 @@ var initToggleTargets = function () {
     var toggleSets = sets.map(function (s) { return new ToggleSet(s); });
     document.addEventListener("mousedown", function (e) {
         toggleSets.forEach(function (s) {
-            s.checkForClicks(e);
+            s.handleAnyOldClick(e);
         });
     });
 };
@@ -37,10 +37,12 @@ var ToggleSet = (function () {
     function ToggleSet(set) {
         Object.assign(this, set);
     }
-    ToggleSet.prototype.checkForClicks = function (e) {
-        e.preventDefault();
+    ToggleSet.prototype.handleAnyOldClick = function (e) {
         var toggleClicked = this.toggles.find(function (t) { return t == e.target; });
         if (toggleClicked) {
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
             var dataToggle_1 = toggleClicked.getAttribute("data-tt-toggle");
             var target = this.targets.find(function (t) {
                 return t.getAttribute("data-tt-target") == dataToggle_1;
@@ -66,12 +68,13 @@ var ToggleSet = (function () {
             }
             return;
         }
-        if (this.blur) {
-            if (!this.targets.find(function (t) { return t.contains(e.target); })) {
-                this.targets.forEach(function (t) {
-                    t.setAttribute("hidden", "");
-                });
-            }
+        if ((this.blur &&
+            !this.targets.find(function (t) { return t.contains(e.target); })) ||
+            (this.targets.find(function (t) { return t.contains(e.target); }) &&
+                e.target.getAttribute("data-tt-untoggle") != null)) {
+            this.targets.forEach(function (t) {
+                t.setAttribute("hidden", "");
+            });
         }
     };
     return ToggleSet;

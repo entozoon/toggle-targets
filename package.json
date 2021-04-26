@@ -4,7 +4,8 @@
   "description": "Toggle another element by data attribute",
   "main": "dist/index.js",
   "scripts": {
-    "start": "tsc -w"
+    "start": "tsc -w",
+    "prepublishOnly": "tsc"
   },
   "repository": {
     "type": "git",

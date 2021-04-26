@@ -108,7 +108,8 @@ var clickyMcClickFace = function (_a) {
     else if (e.target.id && e.target.id.includes("lpform")) {
     }
     else {
-        if (toggle.getAttribute(blurAttribute) !== "false") {
+        if (!(toggle.getAttribute(blurAttribute) &&
+            toggle.getAttribute(blurAttribute) === "false")) {
             getToggles(attribute).forEach(function (toggle) {
                 deactivate({
                     toggle: toggle,

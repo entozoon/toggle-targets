@@ -112,7 +112,12 @@ const clickyMcClickFace = ({
     // Last bloody pass
   } else {
     // Clicking anywhere else - blur everything
-    if (toggle.getAttribute(blurAttribute) !== "false") {
+    if (
+      !(
+        toggle.getAttribute(blurAttribute) &&
+        toggle.getAttribute(blurAttribute) === "false"
+      )
+    ) {
       getToggles(attribute).forEach((toggle) => {
         deactivate({
           toggle,

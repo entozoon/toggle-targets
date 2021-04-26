@@ -53,6 +53,12 @@ var ToggleSet = (function () {
             else {
                 target && target.removeAttribute("hidden");
                 notTargets && notTargets.setAttribute("hidden", "");
+                var focus_1 = target.querySelector("[data-tt-focus]");
+                if (focus_1) {
+                    setTimeout(function () {
+                        focus_1.focus();
+                    }, 250);
+                }
             }
         }
     };

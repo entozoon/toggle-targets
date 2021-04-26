@@ -11,8 +11,8 @@ import set = require("lodash/set");
 // }
 interface Set {
   id: string;
-  toggles: [Element?];
-  targets: [Element?];
+  toggles: [HTMLElement?];
+  targets: [HTMLElement?];
   blur: boolean;
 }
 export const initToggleTargets = () => {
@@ -29,11 +29,11 @@ export const initToggleTargets = () => {
     if (!sets[i]) sets[i] = { id, toggles: [], targets: [], blur: false };
     // Collect the toggle elements for this particular set
     if (item.getAttribute("data-tt-toggle")) {
-      sets[i].toggles.push(item);
+      sets[i].toggles.push(item as HTMLElement);
     }
     // Collect the target elements too JIC
     if (item.getAttribute("data-tt-target")) {
-      sets[i].targets.push(item);
+      sets[i].targets.push(item as HTMLElement);
     }
   });
   // If we detect a data-tt-blur let's assume they all are for ease
@@ -61,8 +61,8 @@ export class ToggleSet {
   // It seems like TS doesn't current do anything with implements concept
   // Otherwise I'd have an interface that extends Set, and then implement it
   id: string;
-  toggles: [Element?];
-  targets: [Element?];
+  toggles: [HTMLElement?];
+  targets: [HTMLElement?];
   blur: boolean;
   constructor(set: Set) {
     // this.toggles = set.toggles;
@@ -89,6 +89,13 @@ export class ToggleSet {
         target && target.removeAttribute("hidden");
         // Unreveal the others
         notTargets && notTargets.setAttribute("hidden", "");
+        // Focus any elements within, if necessary
+        const focus = target.querySelector("[data-tt-focus]") as HTMLElement;
+        if (focus) {
+          setTimeout(() => {
+            focus.focus();
+          }, 250); // JIC
+        }
       }
     }
   }

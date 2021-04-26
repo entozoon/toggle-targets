@@ -47,7 +47,6 @@ var ToggleSet = (function () {
             var notTargets = this.targets.find(function (t) {
                 return t.getAttribute("data-target") != dataToggle_1;
             });
-            console.log(target, target.getAttribute("hidden"));
             if (target.getAttribute("hidden") == null) {
                 target && target.setAttribute("hidden", "");
             }

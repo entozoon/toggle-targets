@@ -82,7 +82,6 @@ export class ToggleSet {
         return t.getAttribute("data-target") != dataToggle;
       });
       // Is the target already revealed? In which case unreveal
-      console.log(target, target.getAttribute("hidden"));
       if (target.getAttribute("hidden") == null) {
         target && target.setAttribute("hidden", "");
       } else {

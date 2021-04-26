@@ -10,45 +10,59 @@ Toggle another element by data attribute.
 npm i toggle-targets
 ```
 
-### HTML
+## HTML
 
-Something along these lines.
+See [examples](https://entozoon.github.io/toggle-targets) for .. well, examples. But here's the gist of it, and parameters:
 
 ```html
-<a href="#" data-toggle-target="#target" data-toggle-set="1">Toggle</a>
-<div id="target" class="toggle-targets">
-  <input />
-  <button data-untoggle-target="#target">Close</button
+<button
+  data-toggle-set="example"
+  data-toggle="target-1"
+>Toggle</button>
+<div
+  data-toggle-set="example"
+  data-target="target-1"
+  hidden>
+  <p>Target element to be toggled</p>
+  <button data-untoggle-set="example">Close</button
 </div>
 ```
 
-Attributes for the toggle button
+### Attributes for the toggle button
 
-| Attribute            | Type           | Description                                                                              |
-| -------------------- | -------------- | ---------------------------------------------------------------------------------------- |
-| data-toggle-target   | selector       | Target element to toggle                                                                 |
-| data-toggle-set      | id             | (optional) Set of toggles, all others of which will be untoggled                         |
-| data-toggle-blur     | boolean string | (default "true") Untoggle when clicking anywhere else                                    |
-| data-toggle-focus    | selector       | (optional) Focus on a selector within                                                    |
-| data-untoggle-target | selector       | (optional) Target element to untoggle. Likely only for use with data-toggle-blur="false" |
+| Attribute       | Type | Description                                     |
+| --------------- | ---- | ----------------------------------------------- |
+| data-toggle-set | id   | Set of toggles, grouped together                |
+| data-toggle     | id   | ID to toggle, matching the target's data-target |
+
+### Attributes for the target element
+
+| Attribute         | Type           | Description                                                  |
+| ----------------- | -------------- | ------------------------------------------------------------ |
+| data-toggle-set   | id             | Set of toggles, grouped together                             |
+| data-target       | id             | ID for this element, matching the toggle's data-toggle       |
+| data-toggle-blur  | boolean string | (optional: default "false") Hide when clicking anywhere else |
+| data-toggle-focus | selector       | (optional) Focus on a selector within                        |
+
+### Additional elements
+
+```html
+<button data-untoggle-set="example">Close</button
+```
+
+| Attribute         | Type     | Description            |
+| ----------------- | -------- | ---------------------- |
+| data-untoggle-set | selector | Set of toggles to hide |
+
+## SCSS
 
 ```scss
 @import "toggle-targets/src/index";
 ```
 
-### JS
+## JS
 
 ```js
-import { ToggleTargets } from "toggle-targets";
-const toggles = new ToggleTargets();
+import { initToggleTargets } from "toggle-targets";
+initToggleTargets();
 ```
-
-Optional parameters passed as an object:
-
-| Parameter          | Default                |
-| ------------------ | ---------------------- |
-| attribute          | "data-toggle-target"   |
-| toggleSetAttribute | "data-toggle-set"      |
-| blurAttribute      | "data-toggle-blur"     |
-| focusAttribute     | "data-toggle-focus"    |
-| untoggleAttribute  | "data-untoggle-target" |

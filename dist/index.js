@@ -122,7 +122,7 @@ var clickyMcClickFace = function (_a) {
 var activate = function (_) { return setActivation(_, true); };
 var deactivate = function (_) { return setActivation(_, false); };
 var toggleTargets = function (_a) {
-    var attribute = _a.attribute, toggleSetAttribute = _a.toggleSetAttribute, focusAttribute = _a.focusAttribute, blurAttribute = _a.blurAttribute;
+    var _b = _a.attribute, attribute = _b === void 0 ? "foo" : _b, toggleSetAttribute = _a.toggleSetAttribute, focusAttribute = _a.focusAttribute, blurAttribute = _a.blurAttribute;
     if (getToggles(attribute)) {
         document.addEventListener("mousedown", function (e) {
             clickyMcClickFace({

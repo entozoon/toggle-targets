@@ -130,7 +130,7 @@ const clickyMcClickFace = ({
 const activate = (_: any) => setActivation(_, true);
 const deactivate = (_: any) => setActivation(_, false);
 export const toggleTargets = ({
-  attribute,
+  attribute = "foo",
   toggleSetAttribute,
   focusAttribute,
   blurAttribute,

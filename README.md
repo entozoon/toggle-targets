@@ -41,9 +41,14 @@ Something along these lines.
 
 ```js
 import { toggleTargets, toggleCloseSet } from "toggle-targets";
-toggleTargets({
-  attribute: "data-toggle-target",
-  toggleSetAttribute: "data-toggle-set",
-  focusAttribute: "data-toggle-focus",
-});
+toggleTargets();
 ```
+
+Optional parameters passed as an object
+| Parameter | Default |
+| --------- | ------- |
+| attribute | "data-toggle-target" |
+| toggleSetAttribute | "data-toggle-set" |
+| blurAttribute | "data-toggle-blur" |
+| focusAttribute | "data-toggle-focus" |
+| untoggleAttribute | "data-untoggle-target" |

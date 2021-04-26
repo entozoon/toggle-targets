@@ -16,12 +16,12 @@ See [examples](https://entozoon.github.io/toggle-targets) for .. well, examples.
 
 ```html
 <button
-  data-toggle-set="example"
-  data-toggle="target-1"
+  data-tt-set="example"
+  data-tt-toggle="target-1"
 >Toggle</button>
 <div
-  data-toggle-set="example"
-  data-target="target-1"
+  data-tt-set="example"
+  data-tt-target="target-1"
   hidden>
   <p>Target element to be toggled</p>
   <button data-untoggle-set="example">Close</button
@@ -30,29 +30,30 @@ See [examples](https://entozoon.github.io/toggle-targets) for .. well, examples.
 
 ### Attributes for the toggle button
 
-| Attribute       | Type | Description                                     |
-| --------------- | ---- | ----------------------------------------------- |
-| data-toggle-set | id   | Set of toggles, grouped together                |
-| data-toggle     | id   | ID to toggle, matching the target's data-target |
+| Attribute      | Type | Description                                        |
+| -------------- | ---- | -------------------------------------------------- |
+| data-tt-set    | id   | Set of toggles, grouped together                   |
+| data-tt-toggle | id   | ID to toggle, matching the target's data-tt-target |
 
 ### Attributes for the target element
 
-| Attribute         | Type           | Description                                                  |
-| ----------------- | -------------- | ------------------------------------------------------------ |
-| data-toggle-set   | id             | Set of toggles, grouped together                             |
-| data-target       | id             | ID for this element, matching the toggle's data-toggle       |
-| data-toggle-blur  | boolean string | (optional: default "false") Hide when clicking anywhere else |
-| data-toggle-focus | selector       | (optional) Focus on a selector within                        |
+| Attribute      | Type           | Description                                                  |
+| -------------- | -------------- | ------------------------------------------------------------ |
+| data-tt-set    | id             | Set of toggles, grouped together                             |
+| data-tt-target | id             | ID for this element, matching the toggle's data-tt-toggle    |
+| data-tt-blur   | boolean string | (optional: default "false") Hide when clicking anywhere else |
 
 ### Additional elements
 
 ```html
-<button data-untoggle-set="example">Close</button
+<button data-tt-untoggle-set="example">Close</button
+<input data-tt-focus />
 ```
 
-| Attribute         | Type     | Description            |
-| ----------------- | -------- | ---------------------- |
-| data-untoggle-set | selector | Set of toggles to hide |
+| Attribute            | Type     | Description                           |
+| -------------------- | -------- | ------------------------------------- |
+| data-tt-untoggle-set | selector | Set of toggles to hide                |
+| data-tt-focus        | selector | (optional) Focus on a selector within |
 
 ## SCSS
 

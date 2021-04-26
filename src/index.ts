@@ -4,7 +4,7 @@ import set = require("lodash/set");
 // }
 // export class ToggleTargets {
 //   constructor({
-//     toggleSelector = "data-toggle-target",
+//     toggleSelector = "data-tt-toggle-target",
 //   }: ToggleTargetsInterface = {}) {
 //     console.log("constructing..");
 //   }
@@ -17,29 +17,29 @@ interface Set {
 }
 export const initToggleTargets = () => {
   let sets: Set[] = [];
-  const setItems = document.querySelectorAll("[data-toggle-set]");
+  const setItems = document.querySelectorAll("[data-tt-set]");
   if (!setItems) return;
-  // Run through all [data-toggle-set] elements
+  // Run through all [data-tt-set] elements
   setItems.forEach((item) => {
-    const id = item.getAttribute("data-toggle-set");
-    if (!id) return console.error("Toggle targets all need a data-toggle-set");
+    const id = item.getAttribute("data-tt-set");
+    if (!id) return console.error("Toggle targets all need a data-tt-set");
     // Collate them into a set of unique object keys
     let i = sets.findIndex((s) => s.id == id);
     i = i >= 0 ? i : sets.length;
     if (!sets[i]) sets[i] = { id, toggles: [], targets: [], blur: false };
     // Collect the toggle elements for this particular set
-    if (item.getAttribute("data-toggle")) {
+    if (item.getAttribute("data-tt-toggle")) {
       sets[i].toggles.push(item);
     }
     // Collect the target elements too JIC
-    if (item.getAttribute("data-target")) {
+    if (item.getAttribute("data-tt-target")) {
       sets[i].targets.push(item);
     }
   });
-  // If we detect a data-toggle-blur let's assume they all are for ease
+  // If we detect a data-tt-blur let's assume they all are for ease
   sets = sets.map((s) => {
     // Got a sneaking suspicion that IE11 won't notice a data attr without a value
-    s.blur = s.targets.some((t) => t.getAttribute("data-toggle-blur") != null);
+    s.blur = s.targets.some((t) => t.getAttribute("data-tt-blur") != null);
     return s;
   });
   // console.log(sets);
@@ -73,13 +73,13 @@ export class ToggleSet {
     if (toggleClicked) {
       // This set's toggle was clicked!
       // Find the target item, specifically within this set
-      // (so the data-target values don't have to be unique!)
-      const dataToggle = toggleClicked.getAttribute("data-toggle");
+      // (so the data-tt-target values don't have to be unique!)
+      const dataToggle = toggleClicked.getAttribute("data-tt-toggle");
       const target = this.targets.find((t) => {
-        return t.getAttribute("data-target") == dataToggle;
+        return t.getAttribute("data-tt-target") == dataToggle;
       });
       const notTargets = this.targets.find((t) => {
-        return t.getAttribute("data-target") != dataToggle;
+        return t.getAttribute("data-tt-target") != dataToggle;
       });
       // Is the target already revealed? In which case unreveal
       if (target.getAttribute("hidden") == null) {
@@ -96,7 +96,7 @@ export class ToggleSet {
 // export class ToggleTargets {
 //   constructor(
 //     { targetSelector } = {
-//       targetSelector: "data-toggle-target",
+//       targetSelector: "data-tt-toggle-target",
 //     }
 //   ) {
 //     console.log("constructing..");
@@ -136,7 +136,7 @@ export class ToggleSet {
 //       : target.classList.remove("active");
 //     // Add an attribute to body for clever stylages
 //     document.body.setAttribute(
-//       "data-toggle-target-active",
+//       "data-tt-toggle-target-active",
 //       activating ? targetSelector : ""
 //     );
 //   } else {
@@ -227,7 +227,7 @@ export class ToggleSet {
 //     // Clicking anywhere else - blur everything
 //     if (
 //       // I'm not sure i've considered this right.. I mean
-//       // data-toggle-blur is on the toggle button but we're considering clicks elsewhere.. so.. how do we get that?
+//       // data-tt-blur is on the toggle button but we're considering clicks elsewhere.. so.. how do we get that?
 //       // This is a point to nest dev in poject
 //       !(blurAttribute && blurAttribute === "false")
 //     ) {

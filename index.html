@@ -14,94 +14,106 @@
 
     <h2>Single toggle</h2>
     <button
-      data-toggle-set="single"
-      data-toggle="target-1"
+      data-tt-set="single"
+      data-tt-toggle="target-1"
     >Toggle</button>
     <div
-      data-toggle-set="single"
-      data-target="target-1"
+      data-tt-set="single"
+      data-tt-target="target-1"
       hidden>
       Target element to be toggled
     </div>
 
     <h2>Multiple</h1>
     <button
-      data-toggle-set="multiple"
-      data-toggle="target-1"
+      data-tt-set="multiple"
+      data-tt-toggle="target-1"
     >
       Toggle 1
     </button>
     <button
-      data-toggle-set="multiple"
-      data-toggle="target-2"
+      data-tt-set="multiple"
+      data-tt-toggle="target-2"
     >
       Toggle 2
     </button>
     <div
-      data-toggle-set="multiple"
-      data-target="target-1"
+      data-tt-set="multiple"
+      data-tt-target="target-1"
       hidden>
       Multiple target 1
     </div>
     <div
-      data-toggle-set="multiple"
-      data-target="target-2"
+      data-tt-set="multiple"
+      data-tt-target="target-2"
       hidden>
       Multiple target 2
     </div>
 
     <h2>Blur on click elsewhere</h2>
     <button
-      data-toggle="toggle-this-blur"
-      data-toggle-set="target-1"
+      data-tt-toggle="toggle-this-blur"
+      data-tt-set="target-1"
     >Toggle</button>
     <div
-      data-target="toggle-this-blur"
-      data-toggle-set="target-1"
-      data-toggle-blur
+      data-tt-target="toggle-this-blur"
+      data-tt-set="target-1"
+      data-tt-blur
       hidden>
       Target element to be toggled
     </div>
 
     <h2>Blur on click elsewhere in a set</h2>
     <button
-      data-toggle-set="multiple-blur"
-      data-toggle="target-1"
+      data-tt-set="multiple-blur"
+      data-tt-toggle="target-1"
     >
       Toggle 1
     </button>
     <button
-      data-toggle-set="multiple-blur"
-      data-toggle="target-2"
+      data-tt-set="multiple-blur"
+      data-tt-toggle="target-2"
     >
       Toggle 2
     </button>
     <div
-      data-toggle-set="multiple-blur"
-      data-target="target-1"
-      data-toggle-blur
+      data-tt-set="multiple-blur"
+      data-tt-target="target-1"
+      data-tt-blur
       hidden>
       Multiple target 1
     </div>
     <div
-      data-toggle-set="multiple-blur"
-      data-target="target-2"
-      data-toggle-blur
+      data-tt-set="multiple-blur"
+      data-tt-target="target-2"
+      data-tt-blur
       hidden>
       Multiple target 2
     </div>
 
     <h2>Untoggle</h2>
     <button
-      data-toggle-set="untoggle"
-      data-toggle="target-1"
+      data-tt-set="untoggle"
+      data-tt-toggle="target-1"
     >Toggle</button>
     <div
-      data-toggle-set="untoggle"
-      data-target="target-1"
+      data-tt-set="untoggle"
+      data-tt-target="target-1"
       hidden>
       <p>Target element to be toggled</p>
-      <button data-untoggle-set="untoggle">Close</button
+      <button data-tt-untoggle-set="untoggle">Close</button
+    </div>
+
+    <h2>Focus within</h2>
+    <button
+      data-tt-set="focus"
+      data-tt-toggle="target-1"
+    >Toggle</button>
+    <div
+      data-tt-set="focus"
+      data-tt-target="target-1"
+      hidden>
+      <input data-tt-focus />
     </div>
 
     <script type="text/javascript" src="./dist/index.js"></script>

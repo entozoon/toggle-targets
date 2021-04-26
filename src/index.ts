@@ -1,13 +1,51 @@
-interface ToggleTargetsInterface {
-  toggleSelector?: string;
+// interface ToggleTargetsInterface {
+//   toggleSelector?: string;
+// }
+// export class ToggleTargets {
+//   constructor({
+//     toggleSelector = "data-toggle-target",
+//   }: ToggleTargetsInterface = {}) {
+//     console.log("constructing..");
+//   }
+// }
+interface Set {
+  [key: string]: {
+    toggles?: [Element?];
+    targets?: [Element?];
+  };
 }
-export class ToggleTargets {
-  constructor({
-    toggleSelector = "data-toggle-target",
-  }: ToggleTargetsInterface = {}) {
-    console.log("constructing..");
-  }
-}
+export const initToggleTargets = () => {
+  let sets: Set = {}; // might live to regret this..
+  const setItems = document.querySelectorAll("[data-toggle-set]");
+  if (!setItems) return;
+  // Run through all [data-toggle-set] elements
+  setItems.forEach((i) => {
+    const setAttribute = i.getAttribute("data-toggle-set");
+    if (!setAttribute)
+      return console.error("Toggle targets all need a data-toggle-set");
+    // Collate them into a set of unique object keys
+    if (!sets[setAttribute]) sets[setAttribute] = {};
+    // Collect the toggle elements for this particular set
+    if (i.getAttribute("data-toggle")) {
+      if (!sets[setAttribute].toggles) sets[setAttribute].toggles = [];
+      sets[setAttribute].toggles.push(i);
+    }
+    // Collect the target elements too JIC
+    if (i.getAttribute("data-target")) {
+      if (!sets[setAttribute].targets) sets[setAttribute].targets = [];
+      sets[setAttribute].targets.push(i);
+    }
+    // sets[element.getAttribute("data-toggle-set")] = [];
+  });
+  // If we detect a data-toggle-blur let's assume they all are for ease
+  sets = sets.map((s) => {
+    s.blur = s.targets.some((t) => t.getAttribute("data-toggle-blur"));
+    return s;
+  });
+  console.log(sets);
+  // const toggles = document.querySelectorAll("data-toggle");
+  // if (!toggles) return;
+};
 // export class ToggleTargets {
 //   constructor(
 //     { targetSelector } = {
@@ -17,7 +55,6 @@ export class ToggleTargets {
 //     console.log("constructing..");
 //   }
 // }
-
 // const getToggles = (attribute: any) =>
 //   document.querySelectorAll(`[${attribute}]`);
 // const clickingWithinToggleTarget = (target: any, attribute: any) => {
@@ -39,7 +76,6 @@ export class ToggleTargets {
 // };
 // const getTargetFromToggle = (toggle: any, attribute: any) =>
 //   document.querySelector(toggle.getAttribute(attribute));
-
 // const setActivation = (params: any, activating: any) => {
 //   const { toggle, attribute } = params;
 //   let target = getTargetFromToggle(toggle, attribute);

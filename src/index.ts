@@ -1,6 +1,3 @@
-//
-// I'm embarassed to say this is basically not typescript!
-//
 const getToggles = (attribute: any) =>
   document.querySelectorAll(`[${attribute}]`);
 const clickingWithinToggleTarget = (target: any, attribute: any) => {
@@ -11,6 +8,14 @@ const clickingWithinToggleTarget = (target: any, attribute: any) => {
     : false;
   // NB: This probably doesn't properly handle blurring of sets
   // NNB: Holy heck that was hard to write!
+};
+const clickingUntoggle = (target: any, untoggleAttribute?: string) => {
+  if (!untoggleAttribute) return false;
+  console.log("target", target);
+  console.log(target.getAttribute(untoggleAttribute));
+  return untoggleAttribute && target.getAttribute(untoggleAttribute)
+    ? target
+    : false;
 };
 const getTargetFromToggle = (toggle: any, attribute: any) =>
   document.querySelector(toggle.getAttribute(attribute));
@@ -48,22 +53,25 @@ const stoppyMcStopFace = ({ e, attribute }: { e: any; attribute: any }) => {
     // Clicking the toggle button
     e.preventDefault();
   }
-  // Should then also run clickyMcClickFace
+  // Should then also propagate and run clickyMcClickFace
 };
 // Clicking anywhere, with touch or mousedown
+interface ClickyMcClickFace {
+  e: any;
+  attribute: string;
+  toggleSetAttribute: string;
+  focusAttribute: string;
+  blurAttribute: string;
+  untoggleAttribute: string;
+}
 const clickyMcClickFace = ({
   e,
   attribute,
   toggleSetAttribute,
   focusAttribute,
   blurAttribute,
-}: {
-  e: any;
-  attribute: string;
-  toggleSetAttribute: string;
-  focusAttribute: string;
-  blurAttribute: string;
-}) => {
+  untoggleAttribute,
+}: ClickyMcClickFace) => {
   let toggle = findToggle({ e, attribute });
   if (toggle) {
     // Clicking the toggle button
@@ -106,6 +114,8 @@ const clickyMcClickFace = ({
         }, 250);
       }
     }
+  } else if (clickingUntoggle(e.target, untoggleAttribute)) {
+    console.log("untoggle click");
   } else if (clickingWithinToggleTarget(e.target, attribute)) {
     // Chill
   } else if (e.target.id && e.target.id.includes("lpform")) {
@@ -130,16 +140,12 @@ const clickyMcClickFace = ({
 const activate = (_: any) => setActivation(_, true);
 const deactivate = (_: any) => setActivation(_, false);
 export const toggleTargets = ({
-  attribute = "foo",
-  toggleSetAttribute,
-  focusAttribute,
-  blurAttribute,
-}: {
-  attribute: string;
-  toggleSetAttribute: string;
-  focusAttribute: string;
-  blurAttribute: string;
-}) => {
+  attribute = "data-toggle-target",
+  toggleSetAttribute = "data-toggle-set",
+  blurAttribute = "data-toggle-blur",
+  focusAttribute = "data-toggle-focus",
+  untoggleAttribute = "data-untoggle-target",
+}: ClickyMcClickFace) => {
   if (getToggles(attribute)) {
     // Has to be mousedown not click, as click actually fires on mouseup
     // which is a problem if, say you highlight your email address in login drop and mouseup away from the drop, it'll blur.
@@ -154,11 +160,12 @@ export const toggleTargets = ({
           toggleSetAttribute,
           focusAttribute,
           blurAttribute,
+          untoggleAttribute,
         });
       },
       false
     );
-    // But, that said, let's also hook into the click event just for the sake of preventing default (scrolling page to the top and messing with my account routes)
+    // But, that said, let's also hook into the click event just for the sake of preventing default (scrolling page to the top and messing with react routes)
     document.addEventListener("click", (e) => {
       stoppyMcStopFace({ e, attribute });
       // return false;

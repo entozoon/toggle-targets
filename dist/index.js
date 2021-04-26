@@ -31,6 +31,15 @@ var clickingWithinToggleTarget = function (target, attribute) {
         ? true
         : false;
 };
+var clickingUntoggle = function (target, untoggleAttribute) {
+    if (!untoggleAttribute)
+        return false;
+    console.log("target", target);
+    console.log(target.getAttribute(untoggleAttribute));
+    return untoggleAttribute && target.getAttribute(untoggleAttribute)
+        ? target
+        : false;
+};
 var getTargetFromToggle = function (toggle, attribute) {
     return document.querySelector(toggle.getAttribute(attribute));
 };
@@ -68,7 +77,7 @@ var stoppyMcStopFace = function (_a) {
     }
 };
 var clickyMcClickFace = function (_a) {
-    var e = _a.e, attribute = _a.attribute, toggleSetAttribute = _a.toggleSetAttribute, focusAttribute = _a.focusAttribute, blurAttribute = _a.blurAttribute;
+    var e = _a.e, attribute = _a.attribute, toggleSetAttribute = _a.toggleSetAttribute, focusAttribute = _a.focusAttribute, blurAttribute = _a.blurAttribute, untoggleAttribute = _a.untoggleAttribute;
     var toggle = findToggle({ e: e, attribute: attribute });
     if (toggle) {
         e.preventDefault();
@@ -103,6 +112,9 @@ var clickyMcClickFace = function (_a) {
             }
         }
     }
+    else if (clickingUntoggle(e.target, untoggleAttribute)) {
+        console.log("untoggle click");
+    }
     else if (clickingWithinToggleTarget(e.target, attribute)) {
     }
     else if (e.target.id && e.target.id.includes("lpform")) {
@@ -122,7 +134,7 @@ var clickyMcClickFace = function (_a) {
 var activate = function (_) { return setActivation(_, true); };
 var deactivate = function (_) { return setActivation(_, false); };
 var toggleTargets = function (_a) {
-    var _b = _a.attribute, attribute = _b === void 0 ? "foo" : _b, toggleSetAttribute = _a.toggleSetAttribute, focusAttribute = _a.focusAttribute, blurAttribute = _a.blurAttribute;
+    var _b = _a.attribute, attribute = _b === void 0 ? "data-toggle-target" : _b, _c = _a.toggleSetAttribute, toggleSetAttribute = _c === void 0 ? "data-toggle-set" : _c, _d = _a.blurAttribute, blurAttribute = _d === void 0 ? "data-toggle-blur" : _d, _e = _a.focusAttribute, focusAttribute = _e === void 0 ? "data-toggle-focus" : _e, _f = _a.untoggleAttribute, untoggleAttribute = _f === void 0 ? "data-untoggle-target" : _f;
     if (getToggles(attribute)) {
         document.addEventListener("mousedown", function (e) {
             clickyMcClickFace({
@@ -131,6 +143,7 @@ var toggleTargets = function (_a) {
                 toggleSetAttribute: toggleSetAttribute,
                 focusAttribute: focusAttribute,
                 blurAttribute: blurAttribute,
+                untoggleAttribute: untoggleAttribute,
             });
         }, false);
         document.addEventListener("click", function (e) {

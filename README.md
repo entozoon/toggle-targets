@@ -20,6 +20,8 @@ Something along these lines.
 </div>
 ```
 
+Attributes for the toggle button
+
 | Attribute            | Type           | Description                                                                              |
 | -------------------- | -------------- | ---------------------------------------------------------------------------------------- |
 | data-toggle-target   | selector       | Target element to toggle                                                                 |

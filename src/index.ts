@@ -123,10 +123,10 @@ const clickyMcClickFace = ({
   } else {
     // Clicking anywhere else - blur everything
     if (
-      !(
-        toggle.getAttribute(blurAttribute) &&
-        toggle.getAttribute(blurAttribute) === "false"
-      )
+      // I'm not sure i've considered this right.. I mean
+      // data-toggle-blur is on the toggle button but we're considering clicks elsewhere.. so.. how do we get that?
+      // This is a point to nest dev in poject
+      !(blurAttribute && blurAttribute === "false")
     ) {
       getToggles(attribute).forEach((toggle) => {
         deactivate({
@@ -140,11 +140,11 @@ const clickyMcClickFace = ({
 const activate = (_: any) => setActivation(_, true);
 const deactivate = (_: any) => setActivation(_, false);
 export const toggleTargets = ({
-  attribute = "data-toggle-target",
-  toggleSetAttribute = "data-toggle-set",
-  blurAttribute = "data-toggle-blur",
-  focusAttribute = "data-toggle-focus",
-  untoggleAttribute = "data-untoggle-target",
+  attribute,
+  toggleSetAttribute,
+  blurAttribute,
+  focusAttribute,
+  untoggleAttribute,
 }: ClickyMcClickFace) => {
   if (getToggles(attribute)) {
     // Has to be mousedown not click, as click actually fires on mouseup

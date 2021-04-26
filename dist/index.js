@@ -38,13 +38,14 @@ var ToggleSet = (function () {
         Object.assign(this, set);
     }
     ToggleSet.prototype.checkForClicks = function (e) {
+        e.preventDefault();
         var toggleClicked = this.toggles.find(function (t) { return t == e.target; });
         if (toggleClicked) {
             var dataToggle_1 = toggleClicked.getAttribute("data-tt-toggle");
             var target = this.targets.find(function (t) {
                 return t.getAttribute("data-tt-target") == dataToggle_1;
             });
-            var notTargets = this.targets.find(function (t) {
+            var notTargets = this.targets.filter(function (t) {
                 return t.getAttribute("data-tt-target") != dataToggle_1;
             });
             if (target.getAttribute("hidden") == null) {
@@ -52,13 +53,24 @@ var ToggleSet = (function () {
             }
             else {
                 target && target.removeAttribute("hidden");
-                notTargets && notTargets.setAttribute("hidden", "");
+                notTargets &&
+                    notTargets.forEach(function (n) {
+                        n.setAttribute("hidden", "");
+                    });
                 var focus_1 = target.querySelector("[data-tt-focus]");
                 if (focus_1) {
                     setTimeout(function () {
                         focus_1.focus();
                     }, 250);
                 }
+            }
+            return;
+        }
+        if (this.blur) {
+            if (!this.targets.find(function (t) { return t.contains(e.target); })) {
+                this.targets.forEach(function (t) {
+                    t.setAttribute("hidden", "");
+                });
             }
         }
     };

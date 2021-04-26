@@ -68,7 +68,7 @@ var stoppyMcStopFace = function (_a) {
     }
 };
 var clickyMcClickFace = function (_a) {
-    var e = _a.e, attribute = _a.attribute, toggleSetAttribute = _a.toggleSetAttribute, focusAttribute = _a.focusAttribute;
+    var e = _a.e, attribute = _a.attribute, toggleSetAttribute = _a.toggleSetAttribute, focusAttribute = _a.focusAttribute, blurAttribute = _a.blurAttribute;
     var toggle = findToggle({ e: e, attribute: attribute });
     if (toggle) {
         e.preventDefault();
@@ -108,21 +108,29 @@ var clickyMcClickFace = function (_a) {
     else if (e.target.id && e.target.id.includes("lpform")) {
     }
     else {
-        getToggles(attribute).forEach(function (toggle) {
-            deactivate({
-                toggle: toggle,
-                attribute: attribute,
+        if (toggle.getAttribute(blurAttribute) !== "false") {
+            getToggles(attribute).forEach(function (toggle) {
+                deactivate({
+                    toggle: toggle,
+                    attribute: attribute,
+                });
             });
-        });
+        }
     }
 };
 var activate = function (_) { return setActivation(_, true); };
 var deactivate = function (_) { return setActivation(_, false); };
 var toggleTargets = function (_a) {
-    var attribute = _a.attribute, toggleSetAttribute = _a.toggleSetAttribute, focusAttribute = _a.focusAttribute;
+    var attribute = _a.attribute, toggleSetAttribute = _a.toggleSetAttribute, focusAttribute = _a.focusAttribute, blurAttribute = _a.blurAttribute;
     if (getToggles(attribute)) {
         document.addEventListener("mousedown", function (e) {
-            clickyMcClickFace({ e: e, attribute: attribute, toggleSetAttribute: toggleSetAttribute, focusAttribute: focusAttribute });
+            clickyMcClickFace({
+                e: e,
+                attribute: attribute,
+                toggleSetAttribute: toggleSetAttribute,
+                focusAttribute: focusAttribute,
+                blurAttribute: blurAttribute,
+            });
         }, false);
         document.addEventListener("click", function (e) {
             stoppyMcStopFace({ e: e, attribute: attribute });

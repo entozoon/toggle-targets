@@ -13,17 +13,18 @@ npm i toggle-targets
 Something along these lines.
 
 ```html
-<a
-  href="#"
-  data-toggle-target="#target"
-  data-toggle-focus="#target input"
-  data-toggle-set
-  >Toggle</a
->
+<a href="#" data-toggle-target="#target" data-toggle-set="1">Toggle</a>
 <div id="target" class="toggle-targets">
   <input />
 </div>
 ```
+
+| Attribute          | Type           | Description                                                      |
+| ------------------ | -------------- | ---------------------------------------------------------------- |
+| data-toggle-target | selector       | Target element to toggle                                         |
+| data-toggle-set    | id             | (optional) Set of toggles, all others of which will be untoggled |
+| data-toggle-blur   | boolean string | (default "true") Untoggle when clicking anywhere else            |
+| data-toggle-focus  | selector       | (optional) Focus on a selector within                            |
 
 ```scss
 .toggle-targets {

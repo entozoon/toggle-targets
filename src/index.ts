@@ -56,11 +56,13 @@ const clickyMcClickFace = ({
   attribute,
   toggleSetAttribute,
   focusAttribute,
+  blurAttribute,
 }: {
   e: any;
-  attribute: any;
-  toggleSetAttribute: any;
-  focusAttribute: any;
+  attribute: string;
+  toggleSetAttribute: string;
+  focusAttribute: string;
+  blurAttribute: string;
 }) => {
   let toggle = findToggle({ e, attribute });
   if (toggle) {
@@ -110,12 +112,14 @@ const clickyMcClickFace = ({
     // Last bloody pass
   } else {
     // Clicking anywhere else - blur everything
-    getToggles(attribute).forEach((toggle) => {
-      deactivate({
-        toggle,
-        attribute,
+    if (toggle.getAttribute(blurAttribute) !== "false") {
+      getToggles(attribute).forEach((toggle) => {
+        deactivate({
+          toggle,
+          attribute,
+        });
       });
-    });
+    }
   }
 };
 const activate = (_: any) => setActivation(_, true);
@@ -124,10 +128,12 @@ export const toggleTargets = ({
   attribute,
   toggleSetAttribute,
   focusAttribute,
+  blurAttribute,
 }: {
-  attribute: any;
-  toggleSetAttribute: any;
-  focusAttribute: any;
+  attribute: string;
+  toggleSetAttribute: string;
+  focusAttribute: string;
+  blurAttribute: string;
 }) => {
   if (getToggles(attribute)) {
     // Has to be mousedown not click, as click actually fires on mouseup
@@ -137,7 +143,13 @@ export const toggleTargets = ({
     document.addEventListener(
       "mousedown",
       (e) => {
-        clickyMcClickFace({ e, attribute, toggleSetAttribute, focusAttribute });
+        clickyMcClickFace({
+          e,
+          attribute,
+          toggleSetAttribute,
+          focusAttribute,
+          blurAttribute,
+        });
       },
       false
     );

@@ -1,8 +1,8 @@
-# toggle-targets
+# Toggle Targets
 
 Toggle another element by data attribute.
 
-## ** [Demo Examples](https://entozoon.github.io/toggle-targets) **
+## [Demo Examples](https://entozoon.github.io/toggle-targets)
 
 ## Install
 

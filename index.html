@@ -1,10 +1,13 @@
 <html>
   <head>
+    <!-- You'll need this CSS, as simple as it is -->
     <link href="dist/index.css" rel="stylesheet" type="text/css" />
+    <!-- (bugfix for demo only) https://stackoverflow.com/a/46887516/3098773 -->
     <script>
-      // (bugfix for demo only) https://stackoverflow.com/a/46887516/3098773
       var exports = {};
     </script>
+    <!-- Mad polyfills for demo only (IE11 support) -->
+    <script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js?features=document.querySelector%2C%7Ehtml5-elements%2CObject.assign%2CElement.prototype.before%2CPromise%2CArray.prototype.includes%2CString.prototype.includes%2CNodeList.prototype.%40%40iterator%2CArray.from%2CElement.prototype.closest%2CNode.prototype.contains%2CArray.prototype.forEach%2CNodeList.prototype.forEach%2CElement.prototype.prepend%2CObject.values%2CArray.prototype.find%2CElement.prototype.after%2CArray.prototype.findIndex%2CArray.prototype.fill%2CObject.getPrototypeOf%2CSymbol.iterator%2CSymbol%2CSymbol.asyncIterator%2CSymbol.for%2CSymbol.hasInstance%2CSymbol.isConcatSpreadable%2CSymbol.keyFor%2CSymbol.match%2CSymbol.prototype.description%2CSymbol.replace%2CSymbol.search%2CSymbol.species%2CSymbol.split%2CSymbol.toPrimitive%2CSymbol.toStringTag%2CSymbol.unscopables"></script>
   </head>
   <body>
     <h1>Toggle Targets Examples</h1>

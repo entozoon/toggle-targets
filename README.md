@@ -2,6 +2,8 @@
 
 Toggle another element by data attribute.
 
+## ** [Demo Examples](https://entozoon.github.io/toggle-targets) **
+
 ## Install
 
 ```bash
@@ -31,19 +33,14 @@ Attributes for the toggle button
 | data-untoggle-target | selector       | (optional) Target element to untoggle. Likely only for use with data-toggle-blur="false" |
 
 ```scss
-.toggle-targets {
-  display: none;
-  &.active {
-    display: block;
-  }
-}
+@import "toggle-targets/src/index";
 ```
 
 ### JS
 
 ```js
-import { toggleTargets, toggleCloseSet } from "toggle-targets";
-toggleTargets();
+import { ToggleTargets } from "toggle-targets";
+const toggles = new ToggleTargets();
 ```
 
 Optional parameters passed as an object:

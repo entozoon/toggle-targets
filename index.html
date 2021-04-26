@@ -1,9 +1,47 @@
 <html>
   <head>
-    <script src="./dist/index.js"></script>
+    <link href="dist/index.css" rel="stylesheet" type="text/css" />
+    <script>
+      // (bugfix for demo only) https://stackoverflow.com/a/46887516/3098773
+      var exports = {};
+    </script>
   </head>
   <body>
     <h1>Toggle Targets Examples</h1>
-    <p>Hello!</p>
+
+    <h2>Single toggle</h2>
+    <button data-toggle="toggle-this">Toggle</button>
+    <div data-target="toggle-this" hidden>
+      Target element to be toggled
+    </div>
+
+    <h2>A set of things</h1>
+    <button
+      data-toggle="set-of-things-target-1"
+    >
+      Toggle 1
+    </button>
+    <button
+      data-toggle="set-of-things-target-2"
+    >
+      Toggle 2
+    </button>
+    <div
+      data-target="set-of-things-target-1"
+      data-toggle-target-set="set-of-things"
+      hidden>
+      Set of things target 1
+    </div>
+    <div
+      data-target="set-of-things-target-2"
+      data-toggle-target-set="set-of-things"
+      hidden>
+      Set of things target 2
+    </div>
+
+    <script type="text/javascript" src="./dist/index.js"></script>
+    <script type="text/javascript">
+      const toggles = new ToggleTargets();
+    </script>
   </body>
 </html>

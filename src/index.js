@@ -1,23 +1,13 @@
-interface ToggleTargetsInterface {
-  toggleSelector?: string;
-}
-export class ToggleTargets {
-  constructor({
-    toggleSelector = "data-toggle-target",
-  }: ToggleTargetsInterface = {}) {
-    console.log("constructing..");
-  }
-}
-// export class ToggleTargets {
-//   constructor(
-//     { targetSelector } = {
-//       targetSelector: "data-toggle-target",
-//     }
-//   ) {
-//     console.log("constructing..");
-//   }
-// }
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ToggleTargets = void 0;
+var ToggleTargets = /** @class */ (function () {
+    function ToggleTargets() {
+        console.log("constructing..");
+    }
+    return ToggleTargets;
+}());
+exports.ToggleTargets = ToggleTargets;
 // const getToggles = (attribute: any) =>
 //   document.querySelectorAll(`[${attribute}]`);
 // const clickingWithinToggleTarget = (target: any, attribute: any) => {
@@ -39,7 +29,6 @@ export class ToggleTargets {
 // };
 // const getTargetFromToggle = (toggle: any, attribute: any) =>
 //   document.querySelector(toggle.getAttribute(attribute));
-
 // const setActivation = (params: any, activating: any) => {
 //   const { toggle, attribute } = params;
 //   let target = getTargetFromToggle(toggle, attribute);
@@ -206,3 +195,4 @@ export class ToggleTargets {
 //     });
 //   });
 // };
+//# sourceMappingURL=index.js.map

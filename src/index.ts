@@ -1,3 +1,4 @@
+import set = require("lodash/set");
 // interface ToggleTargetsInterface {
 //   toggleSelector?: string;
 // }
@@ -9,39 +10,36 @@
 //   }
 // }
 interface Set {
-  [key: string]: {
-    toggles?: [Element?];
-    targets?: [Element?];
-  };
+  id: string;
+  toggles?: [Element?];
+  targets?: [Element?];
 }
 export const initToggleTargets = () => {
-  let sets: Set = {}; // might live to regret this..
+  let sets: Set[] = [];
   const setItems = document.querySelectorAll("[data-toggle-set]");
   if (!setItems) return;
   // Run through all [data-toggle-set] elements
-  setItems.forEach((i) => {
-    const setAttribute = i.getAttribute("data-toggle-set");
-    if (!setAttribute)
-      return console.error("Toggle targets all need a data-toggle-set");
+  setItems.forEach((item) => {
+    const id = item.getAttribute("data-toggle-set");
+    if (!id) return console.error("Toggle targets all need a data-toggle-set");
     // Collate them into a set of unique object keys
-    if (!sets[setAttribute]) sets[setAttribute] = {};
+    let i = sets.findIndex((s) => s.id == id);
+    i = i >= 0 ? i : sets.length;
+    if (!sets[i]) sets[i] = { id, toggles: [], targets: [] };
     // Collect the toggle elements for this particular set
-    if (i.getAttribute("data-toggle")) {
-      if (!sets[setAttribute].toggles) sets[setAttribute].toggles = [];
-      sets[setAttribute].toggles.push(i);
+    if (item.getAttribute("data-toggle")) {
+      sets[i].toggles.push(item);
     }
     // Collect the target elements too JIC
-    if (i.getAttribute("data-target")) {
-      if (!sets[setAttribute].targets) sets[setAttribute].targets = [];
-      sets[setAttribute].targets.push(i);
+    if (item.getAttribute("data-target")) {
+      sets[i].targets.push(item);
     }
-    // sets[element.getAttribute("data-toggle-set")] = [];
   });
   // If we detect a data-toggle-blur let's assume they all are for ease
-  sets = sets.map((s) => {
-    s.blur = s.targets.some((t) => t.getAttribute("data-toggle-blur"));
-    return s;
-  });
+  // sets = sets.map((s) => {
+  //   s.blur = s.targets.some((t) => t.getAttribute("data-toggle-blur"));
+  //   return s;
+  // });
   console.log(sets);
   // const toggles = document.querySelectorAll("data-toggle");
   // if (!toggles) return;

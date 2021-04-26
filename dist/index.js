@@ -2,30 +2,24 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.initToggleTargets = void 0;
 var initToggleTargets = function () {
-    var sets = {};
+    var sets = [];
     var setItems = document.querySelectorAll("[data-toggle-set]");
     if (!setItems)
         return;
-    setItems.forEach(function (i) {
-        var setAttribute = i.getAttribute("data-toggle-set");
-        if (!setAttribute)
+    setItems.forEach(function (item) {
+        var id = item.getAttribute("data-toggle-set");
+        if (!id)
             return console.error("Toggle targets all need a data-toggle-set");
-        if (!sets[setAttribute])
-            sets[setAttribute] = {};
-        if (i.getAttribute("data-toggle")) {
-            if (!sets[setAttribute].toggles)
-                sets[setAttribute].toggles = [];
-            sets[setAttribute].toggles.push(i);
+        var i = sets.findIndex(function (s) { return s.id == id; });
+        i = i >= 0 ? i : sets.length;
+        if (!sets[i])
+            sets[i] = { id: id, toggles: [], targets: [] };
+        if (item.getAttribute("data-toggle")) {
+            sets[i].toggles.push(item);
         }
-        if (i.getAttribute("data-target")) {
-            if (!sets[setAttribute].targets)
-                sets[setAttribute].targets = [];
-            sets[setAttribute].targets.push(i);
+        if (item.getAttribute("data-target")) {
+            sets[i].targets.push(item);
         }
-    });
-    sets = sets.map(function (s) {
-        s.blur = s.targets.some(function (t) { return t.getAttribute("data-toggle-blur"); });
-        return s;
     });
     console.log(sets);
 };

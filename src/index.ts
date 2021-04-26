@@ -11,8 +11,9 @@ import set = require("lodash/set");
 // }
 interface Set {
   id: string;
-  toggles?: [Element?];
-  targets?: [Element?];
+  toggles: [Element?];
+  targets: [Element?];
+  blur: boolean;
 }
 export const initToggleTargets = () => {
   let sets: Set[] = [];
@@ -25,7 +26,7 @@ export const initToggleTargets = () => {
     // Collate them into a set of unique object keys
     let i = sets.findIndex((s) => s.id == id);
     i = i >= 0 ? i : sets.length;
-    if (!sets[i]) sets[i] = { id, toggles: [], targets: [] };
+    if (!sets[i]) sets[i] = { id, toggles: [], targets: [], blur: false };
     // Collect the toggle elements for this particular set
     if (item.getAttribute("data-toggle")) {
       sets[i].toggles.push(item);
@@ -36,14 +37,63 @@ export const initToggleTargets = () => {
     }
   });
   // If we detect a data-toggle-blur let's assume they all are for ease
-  // sets = sets.map((s) => {
-  //   s.blur = s.targets.some((t) => t.getAttribute("data-toggle-blur"));
-  //   return s;
-  // });
-  console.log(sets);
-  // const toggles = document.querySelectorAll("data-toggle");
-  // if (!toggles) return;
+  sets = sets.map((s) => {
+    // Got a sneaking suspicion that IE11 won't notice a data attr without a value
+    s.blur = s.targets.some((t) => t.getAttribute("data-toggle-blur") != null);
+    return s;
+  });
+  // console.log(sets);
+  // Cool, so we've got our sets in a nice format, let's instanciate some instances
+  const toggleSets = sets.map((s) => new ToggleSet(s));
+  // console.log("toggleSets", toggleSets);
+  // Global click event check against all sets
+  // Has to be mousedown not click, as click actually fires on mouseup
+  // which is a problem if, say you highlight your email address in login drop and mouseup away from the drop, it'll blur.
+  //
+  document.addEventListener("mousedown", (e) => {
+    toggleSets.forEach((s) => {
+      s.checkForClicks(e);
+    });
+  });
 };
+export class ToggleSet {
+  // Infuriating that I have to write the interface out again
+  // It seems like TS doesn't current do anything with implements concept
+  // Otherwise I'd have an interface that extends Set, and then implement it
+  id: string;
+  toggles: [Element?];
+  targets: [Element?];
+  blur: boolean;
+  constructor(set: Set) {
+    // this.toggles = set.toggles;
+    Object.assign(this, set);
+  }
+  checkForClicks(e: Event) {
+    const toggleClicked = this.toggles.find((t) => t == e.target);
+    if (toggleClicked) {
+      // This set's toggle was clicked!
+      // Find the target item, specifically within this set
+      // (so the data-target values don't have to be unique!)
+      const dataToggle = toggleClicked.getAttribute("data-toggle");
+      const target = this.targets.find((t) => {
+        return t.getAttribute("data-target") == dataToggle;
+      });
+      const notTargets = this.targets.find((t) => {
+        return t.getAttribute("data-target") != dataToggle;
+      });
+      // Is the target already revealed? In which case unreveal
+      console.log(target, target.getAttribute("hidden"));
+      if (target.getAttribute("hidden") == null) {
+        target && target.setAttribute("hidden", "");
+      } else {
+        // Reveal its target item
+        target && target.removeAttribute("hidden");
+        // Unreveal the others
+        notTargets && notTargets.setAttribute("hidden", "");
+      }
+    }
+  }
+}
 // export class ToggleTargets {
 //   constructor(
 //     { targetSelector } = {

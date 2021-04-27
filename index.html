@@ -161,9 +161,30 @@
       </div>
     </div>
 
+    <h2>Externally toggled by JS</h2>
+    <button
+      data-tt-set="external-set"
+      data-tt-toggle="target-1"
+    >Toggle</button>
+    <div
+      data-tt-set="external-set"
+      data-tt-target="target-1"
+      hidden>
+      Target element has been automatically shown
+    </div>
+
     <script type="text/javascript" src="./dist/index.js"></script>
     <script type="text/javascript">
-      initToggleTargets()
+      const toggleSets = initToggleTargets();
+
+      // Example of how you might manually show a toggle target
+      // nb: you'll need an import like this:
+      // import { initToggleTargets, toggleShow } from "toggle-targets";
+      toggleSets
+      .find(t => t.id == "external-set")
+      .targets.forEach(t => {
+        toggleShow(t);
+      });
     </script>
   </body>
 </html>

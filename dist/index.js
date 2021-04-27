@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ToggleSet = exports.initToggleTargets = void 0;
+exports.ToggleSet = exports.toggleIsShown = exports.toggleShow = exports.toggleHideAll = exports.toggleHide = exports.initToggleTargets = void 0;
 var initToggleTargets = function () {
     var sets = [];
     var setItems = document.querySelectorAll("[data-tt-set]");
@@ -34,20 +34,24 @@ var initToggleTargets = function () {
     return toggleSets;
 };
 exports.initToggleTargets = initToggleTargets;
-var hide = function (target) {
+var toggleHide = function (target) {
     target.setAttribute("hidden", "");
 };
-var hideAll = function (targets) {
+exports.toggleHide = toggleHide;
+var toggleHideAll = function (targets) {
     targets.forEach(function (t) {
-        hide(t);
+        exports.toggleHide(t);
     });
 };
-var show = function (target) {
+exports.toggleHideAll = toggleHideAll;
+var toggleShow = function (target) {
     target.removeAttribute("hidden");
 };
-var isShown = function (target) {
+exports.toggleShow = toggleShow;
+var toggleIsShown = function (target) {
     return target.getAttribute("hidden") == null;
 };
+exports.toggleIsShown = toggleIsShown;
 var ToggleSet = (function () {
     function ToggleSet(set) {
         Object.assign(this, set);
@@ -65,12 +69,12 @@ var ToggleSet = (function () {
             var notTargets = this.targets.filter(function (t) {
                 return t.getAttribute("data-tt-target") != dataToggle_1;
             });
-            if (isShown(target)) {
-                target && hide(target);
+            if (exports.toggleIsShown(target)) {
+                target && exports.toggleHide(target);
             }
             else {
-                target && show(target);
-                notTargets && hideAll(notTargets);
+                target && exports.toggleShow(target);
+                notTargets && exports.toggleHideAll(notTargets);
                 var focus_1 = target.querySelector("[data-tt-focus]");
                 if (focus_1) {
                     setTimeout(function () {
@@ -82,7 +86,7 @@ var ToggleSet = (function () {
         }
         if (this.blur &&
             !this.targets.find(function (t) { return t.contains(e.target); })) {
-            hideAll(this.targets);
+            exports.toggleHideAll(this.targets);
             return;
         }
         if (e.target.getAttribute("data-tt-untoggle") != null &&
@@ -91,7 +95,7 @@ var ToggleSet = (function () {
             e.stopPropagation();
             e.stopImmediatePropagation();
             var parentTarget = e.target.closest("[data-tt-target]");
-            parentTarget && hide(parentTarget);
+            parentTarget && exports.toggleHide(parentTarget);
             return;
         }
     };

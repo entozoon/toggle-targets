@@ -14,14 +14,15 @@
   </head>
   <body>
     <h1>Toggle Targets Examples</h1>
+    <p><a href="https://github.com/entozoon/toggle-targets/blob/main/index.html">View the page source</a> to see how you might go about using these.</p>
 
     <h2>Single toggle</h2>
     <button
-      data-tt-set="single"
+      data-tt-set="single-set"
       data-tt-toggle="target-1"
     >Toggle</button>
     <div
-      data-tt-set="single"
+      data-tt-set="single-set"
       data-tt-target="target-1"
       hidden>
       Target element to be toggled
@@ -29,25 +30,25 @@
 
     <h2>Multiple</h1>
     <button
-      data-tt-set="multiple"
+      data-tt-set="multiple-set"
       data-tt-toggle="target-1"
     >
       Toggle 1
     </button>
     <button
-      data-tt-set="multiple"
+      data-tt-set="multiple-set"
       data-tt-toggle="target-2"
     >
       Toggle 2
     </button>
     <div
-      data-tt-set="multiple"
+      data-tt-set="multiple-set"
       data-tt-target="target-1"
       hidden>
       Target 1
     </div>
     <div
-      data-tt-set="multiple"
+      data-tt-set="multiple-set"
       data-tt-target="target-2"
       hidden>
       Target 2
@@ -55,26 +56,26 @@
 
     <h2>Blur on click elsewhere</h2>
     <button
-      data-tt-set="multiple-blur"
+      data-tt-set="multiple-blur-set"
       data-tt-toggle="target-1"
     >
       Toggle 1
     </button>
     <button
-      data-tt-set="multiple-blur"
+      data-tt-set="multiple-blur-set"
       data-tt-toggle="target-2"
     >
       Toggle 2
     </button>
     <div
-      data-tt-set="multiple-blur"
+      data-tt-set="multiple-blur-set"
       data-tt-target="target-1"
       data-tt-blur
       hidden>
       Target 1
     </div>
     <div
-      data-tt-set="multiple-blur"
+      data-tt-set="multiple-blur-set"
       data-tt-target="target-2"
       data-tt-blur
       hidden>
@@ -83,11 +84,11 @@
 
     <h2>Untoggle</h2>
     <button
-      data-tt-set="untoggle"
+      data-tt-set="untoggle-set"
       data-tt-toggle="target-1"
     >Toggle</button>
     <div
-      data-tt-set="untoggle"
+      data-tt-set="untoggle-set"
       data-tt-target="target-1"
       hidden>
       <p>Here's a cheeky close button</p>
@@ -96,15 +97,33 @@
 
     <h2>Focus within</h2>
     <button
-      data-tt-set="focus"
+      data-tt-set="focus-set"
       data-tt-toggle="target-1"
     >Toggle</button>
     <div
-      data-tt-set="focus"
+      data-tt-set="focus-set"
       data-tt-target="target-1"
       hidden>
       <input data-tt-focus />
     </div>
+
+    <h2>Hide toggle after toggling</h2>
+    <div
+      data-tt-set="hide-set"
+      data-tt-target="target-1"
+      hidden>
+      Now this is open, the toggle button is hidden
+    </div>
+    <button
+      data-tt-set="hide-set"
+      data-tt-toggle="target-1"
+    >Toggle</button>
+    <style>
+      [data-tt-set="hide-set"][data-tt-target]:not([hidden]) ~
+      [data-tt-set="hide-set"][data-tt-toggle] {
+        display: none !important;
+      }
+    </style>
 
     <script type="text/javascript" src="./dist/index.js"></script>
     <script type="text/javascript">

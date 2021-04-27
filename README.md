@@ -31,18 +31,18 @@ See [examples](https://entozoon.github.io/toggle-targets) for .. well, examples.
 
 ### Attributes for the toggle button
 
-| Attribute      | Type | Description                                        |
-| -------------- | ---- | -------------------------------------------------- |
-| data-tt-set    | id   | Set of toggles, grouped together                   |
-| data-tt-toggle | id   | ID to toggle, matching the target's data-tt-target |
+| Attribute      | Type            | Description                                        |
+| -------------- | --------------- | -------------------------------------------------- |
+| data-tt-set    | id (unique)     | Set of toggles, grouped together                   |
+| data-tt-toggle | id (not unique) | ID to toggle, matching the target's data-tt-target |
 
 ### Attributes for the target element
 
-| Attribute      | Type  | Description                                                |
-| -------------- | ----- | ---------------------------------------------------------- |
-| data-tt-set    | id    | Set of toggles, grouped together                           |
-| data-tt-target | id    | ID for this element, matching the toggle's data-tt-toggle  |
-| data-tt-blur   | empty | (optional: default false) Hide when clicking anywhere else |
+| Attribute      | Type            | Description                                                |
+| -------------- | --------------- | ---------------------------------------------------------- |
+| data-tt-set    | id (unique)     | Set of toggles, grouped together                           |
+| data-tt-target | id (not unique) | ID for this element, matching the toggle's data-tt-toggle  |
+| data-tt-blur   | empty           | (optional: default false) Hide when clicking anywhere else |
 
 ### Optional additional elements
 

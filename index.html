@@ -125,6 +125,19 @@
       }
     </style>
 
+    <h2>Using an &lt;a&gt; with a nested element</h2>
+    <a
+      data-tt-set="a-set"
+      data-tt-toggle="target-1"
+      href="#"
+    ><span>Toggle</span></a>
+    <div
+      data-tt-set="a-set"
+      data-tt-target="target-1"
+      hidden>
+      Target element to be toggled
+    </div>
+
     <script type="text/javascript" src="./dist/index.js"></script>
     <script type="text/javascript">
       initToggleTargets()

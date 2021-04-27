@@ -38,7 +38,7 @@ var ToggleSet = (function () {
         Object.assign(this, set);
     }
     ToggleSet.prototype.handleAnyOldClick = function (e) {
-        var toggleClicked = this.toggles.find(function (t) { return t == e.target; });
+        var toggleClicked = this.toggles.find(function (t) { return t == e.target || t.contains(e.target); });
         if (toggleClicked) {
             e.preventDefault();
             e.stopPropagation();

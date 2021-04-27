@@ -59,10 +59,11 @@ export class ToggleSet {
     Object.assign(this, set);
   }
   handleAnyOldClick(e: Event) {
-    const toggleClicked = this.toggles.find((t) => t == e.target);
+    // Find one of our known toggles that either is the target clicked, or contains the target
+    const toggleClicked = this.toggles.find(
+      (t) => t == e.target || t.contains(e.target as HTMLElement)
+    );
     if (toggleClicked) {
-      console.log("toggleClick", toggleClicked);
-
       // This set's toggle was clicked!
       e.preventDefault();
       e.stopPropagation();

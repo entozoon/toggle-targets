@@ -138,6 +138,29 @@
       Target element to be toggled
     </div>
 
+    <h2>Nested toggles (yikes!)</h2>
+    <button
+      data-tt-set="nest-set"
+      data-tt-toggle="target-1"
+    >Toggle</button>
+    <div
+      data-tt-set="nest-set"
+      data-tt-target="target-1"
+      hidden
+    >
+      <button
+        data-tt-set="nested-set"
+        data-tt-toggle="target-1"
+      >Nested toggle</button>
+      <div
+        data-tt-set="nested-set"
+        data-tt-target="target-1"
+        hidden>
+        <p>Here's a cheeky close button too</p>
+        <button data-tt-untoggle>Close</button>
+      </div>
+    </div>
+
     <script type="text/javascript" src="./dist/index.js"></script>
     <script type="text/javascript">
       initToggleTargets()

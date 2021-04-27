@@ -45,6 +45,7 @@ export const initToggleTargets = () => {
       s.handleAnyOldClick(e);
     });
   });
+  return toggleSets;
 };
 const hide = (target: HTMLElement): void => {
   target.setAttribute("hidden", "");

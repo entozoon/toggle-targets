@@ -84,12 +84,13 @@ var ToggleSet = (function () {
             hideAll(this.targets);
             return;
         }
-        if (this.targets.find(function (t) { return t.contains(e.target); }) &&
-            e.target.getAttribute("data-tt-untoggle") != null) {
+        if (e.target.getAttribute("data-tt-untoggle") != null &&
+            this.targets.find(function (t) { return t.contains(e.target); })) {
             e.preventDefault();
             e.stopPropagation();
             e.stopImmediatePropagation();
-            hideAll(this.targets);
+            var parentTarget = e.target.closest("[data-tt-target]");
+            parentTarget && hide(parentTarget);
             return;
         }
     };

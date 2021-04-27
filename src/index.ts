@@ -119,13 +119,18 @@ export class ToggleSet {
     }
     // Oh, or if clicking an untoggle element!
     if (
-      this.targets.find((t) => t.contains(e.target as HTMLElement)) &&
-      (e.target as HTMLElement).getAttribute("data-tt-untoggle") != null
+      // It's a toggle element (doesn't currently handle nested clicks)
+      (e.target as HTMLElement).getAttribute("data-tt-untoggle") != null &&
+      // If it's within one of the targets..
+      this.targets.find((t) => t.contains(e.target as HTMLElement))
     ) {
       e.preventDefault();
       e.stopPropagation();
       e.stopImmediatePropagation();
-      hideAll(this.targets);
+      // Figure out exactly which target we're inside (as they can be nested)
+      // super annoying, as I've managed to avoid using Element.closest so far
+      let parentTarget = (e.target as HTMLElement).closest("[data-tt-target]");
+      parentTarget && hide(parentTarget as HTMLElement);
       return;
     }
   }

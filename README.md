@@ -22,7 +22,8 @@ See [examples](https://entozoon.github.io/toggle-targets) for .. well, examples.
 <div
   data-tt-set="example"
   data-tt-target="target-1"
-  hidden>
+  hidden
+>
   <p>Target element to be toggled</p>
   <button data-untoggle-set="example">Close</button
 </div>

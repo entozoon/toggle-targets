@@ -46,6 +46,19 @@ export const initToggleTargets = () => {
     });
   });
 };
+const hide = (target: HTMLElement): void => {
+  target.setAttribute("hidden", "");
+};
+const hideAll = (targets: HTMLElement[]): void => {
+  targets.forEach((t) => {
+    hide(t);
+  });
+};
+const show = (target: HTMLElement): void => {
+  target.removeAttribute("hidden");
+};
+const isShown = (target: HTMLElement): boolean =>
+  target.getAttribute("hidden") == null;
 export class ToggleSet {
   // Infuriating that I have to write the interface out again
   // It seems like TS doesn't current do anything with implements concept
@@ -78,16 +91,13 @@ export class ToggleSet {
         return t.getAttribute("data-tt-target") != dataToggle;
       });
       // Is the target already revealed? In which case unreveal
-      if (target.getAttribute("hidden") == null) {
-        target && target.setAttribute("hidden", "");
+      if (isShown(target)) {
+        target && hide(target);
       } else {
         // Reveal its target item
-        target && target.removeAttribute("hidden");
+        target && show(target);
         // Unreveal the others
-        notTargets &&
-          notTargets.forEach((n) => {
-            n.setAttribute("hidden", "");
-          });
+        notTargets && hideAll(notTargets);
         // Focus any elements within, if necessary
         const focus = target.querySelector("[data-tt-focus]") as HTMLElement;
         if (focus) {
@@ -100,18 +110,23 @@ export class ToggleSet {
     }
     if (
       // We're not clicking a toggle and it's set to blur
-      (this.blur &&
-        // So unless we're clicking within the target..
-        !this.targets.find((t) => t.contains(e.target as HTMLElement))) ||
-      // Oh, or if clicking an untoggle element!
-      (this.targets.find((t) => t.contains(e.target as HTMLElement)) &&
-        (e.target as HTMLElement).getAttribute("data-tt-untoggle") != null)
-      // Might have to stopPropagation with this but not sure ^
+      this.blur &&
+      // So unless we're clicking within the target..
+      !this.targets.find((t) => t.contains(e.target as HTMLElement))
     ) {
-      // Hide all targets
-      this.targets.forEach((t) => {
-        t.setAttribute("hidden", "");
-      });
+      hideAll(this.targets);
+      return;
+    }
+    // Oh, or if clicking an untoggle element!
+    if (
+      this.targets.find((t) => t.contains(e.target as HTMLElement)) &&
+      (e.target as HTMLElement).getAttribute("data-tt-untoggle") != null
+    ) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      hideAll(this.targets);
+      return;
     }
   }
 }

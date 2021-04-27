@@ -33,6 +33,20 @@ var initToggleTargets = function () {
     });
 };
 exports.initToggleTargets = initToggleTargets;
+var hide = function (target) {
+    target.setAttribute("hidden", "");
+};
+var hideAll = function (targets) {
+    targets.forEach(function (t) {
+        hide(t);
+    });
+};
+var show = function (target) {
+    target.removeAttribute("hidden");
+};
+var isShown = function (target) {
+    return target.getAttribute("hidden") == null;
+};
 var ToggleSet = (function () {
     function ToggleSet(set) {
         Object.assign(this, set);
@@ -50,15 +64,12 @@ var ToggleSet = (function () {
             var notTargets = this.targets.filter(function (t) {
                 return t.getAttribute("data-tt-target") != dataToggle_1;
             });
-            if (target.getAttribute("hidden") == null) {
-                target && target.setAttribute("hidden", "");
+            if (isShown(target)) {
+                target && hide(target);
             }
             else {
-                target && target.removeAttribute("hidden");
-                notTargets &&
-                    notTargets.forEach(function (n) {
-                        n.setAttribute("hidden", "");
-                    });
+                target && show(target);
+                notTargets && hideAll(notTargets);
                 var focus_1 = target.querySelector("[data-tt-focus]");
                 if (focus_1) {
                     setTimeout(function () {
@@ -68,13 +79,18 @@ var ToggleSet = (function () {
             }
             return;
         }
-        if ((this.blur &&
-            !this.targets.find(function (t) { return t.contains(e.target); })) ||
-            (this.targets.find(function (t) { return t.contains(e.target); }) &&
-                e.target.getAttribute("data-tt-untoggle") != null)) {
-            this.targets.forEach(function (t) {
-                t.setAttribute("hidden", "");
-            });
+        if (this.blur &&
+            !this.targets.find(function (t) { return t.contains(e.target); })) {
+            hideAll(this.targets);
+            return;
+        }
+        if (this.targets.find(function (t) { return t.contains(e.target); }) &&
+            e.target.getAttribute("data-tt-untoggle") != null) {
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            hideAll(this.targets);
+            return;
         }
     };
     return ToggleSet;

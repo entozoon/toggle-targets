@@ -31,6 +31,7 @@ var initToggleTargets = function () {
             s.handleAnyOldClick(e);
         });
     });
+    return toggleSets;
 };
 exports.initToggleTargets = initToggleTargets;
 var hide = function (target) {

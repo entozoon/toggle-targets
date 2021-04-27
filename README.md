@@ -66,5 +66,5 @@ See [examples](https://entozoon.github.io/toggle-targets) for .. well, examples.
 
 ```js
 import { initToggleTargets } from "toggle-targets";
-initToggleTargets();
+const toggleSets = initToggleTargets();
 ```

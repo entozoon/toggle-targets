@@ -47,18 +47,18 @@ export const initToggleTargets = () => {
   });
   return toggleSets;
 };
-const hide = (target: HTMLElement): void => {
+export const toggleHide = (target: HTMLElement): void => {
   target.setAttribute("hidden", "");
 };
-const hideAll = (targets: HTMLElement[]): void => {
+export const toggleHideAll = (targets: HTMLElement[]): void => {
   targets.forEach((t) => {
-    hide(t);
+    toggleHide(t);
   });
 };
-const show = (target: HTMLElement): void => {
+export const toggleShow = (target: HTMLElement): void => {
   target.removeAttribute("hidden");
 };
-const isShown = (target: HTMLElement): boolean =>
+export const toggleIsShown = (target: HTMLElement): boolean =>
   target.getAttribute("hidden") == null;
 export class ToggleSet {
   // Infuriating that I have to write the interface out again
@@ -92,13 +92,13 @@ export class ToggleSet {
         return t.getAttribute("data-tt-target") != dataToggle;
       });
       // Is the target already revealed? In which case unreveal
-      if (isShown(target)) {
-        target && hide(target);
+      if (toggleIsShown(target)) {
+        target && toggleHide(target);
       } else {
         // Reveal its target item
-        target && show(target);
+        target && toggleShow(target);
         // Unreveal the others
-        notTargets && hideAll(notTargets);
+        notTargets && toggleHideAll(notTargets);
         // Focus any elements within, if necessary
         const focus = target.querySelector("[data-tt-focus]") as HTMLElement;
         if (focus) {
@@ -115,7 +115,7 @@ export class ToggleSet {
       // So unless we're clicking within the target..
       !this.targets.find((t) => t.contains(e.target as HTMLElement))
     ) {
-      hideAll(this.targets);
+      toggleHideAll(this.targets);
       return;
     }
     // Oh, or if clicking an untoggle element!
@@ -131,7 +131,7 @@ export class ToggleSet {
       // Figure out exactly which target we're inside (as they can be nested)
       // super annoying, as I've managed to avoid using Element.closest so far
       let parentTarget = (e.target as HTMLElement).closest("[data-tt-target]");
-      parentTarget && hide(parentTarget as HTMLElement);
+      parentTarget && toggleHide(parentTarget as HTMLElement);
       return;
     }
   }

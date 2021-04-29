@@ -82,12 +82,11 @@ var ToggleSet = (function () {
                     }, 250);
                 }
             }
-            return;
+            return false;
         }
         if (this.blur &&
             !this.targets.find(function (t) { return t.contains(e.target); })) {
             exports.toggleHideAll(this.targets);
-            return;
         }
         if (e.target.getAttribute("data-tt-untoggle") != null &&
             this.targets.find(function (t) { return t.contains(e.target); })) {
@@ -96,7 +95,7 @@ var ToggleSet = (function () {
             e.stopImmediatePropagation();
             var parentTarget = e.target.closest("[data-tt-target]");
             parentTarget && exports.toggleHide(parentTarget);
-            return;
+            return false;
         }
     };
     return ToggleSet;

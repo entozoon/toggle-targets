@@ -1,7 +1,7 @@
 interface Set {
   id: string;
-  toggles: [HTMLElement?];
-  targets: [HTMLElement?];
+  toggles?: HTMLElement[];
+  targets?: HTMLElement[];
   blur: boolean;
 }
 export const initToggleTargets = () => {
@@ -40,12 +40,41 @@ export const initToggleTargets = () => {
   // Has to be mousedown not click, as click actually fires on mouseup
   // which is a problem if, say you highlight your email address in login drop and mouseup away from the drop, it'll blur.
   //
-  document.addEventListener("mousedown", (e) => {
-    toggleSets.forEach((s) => {
-      s.handleAnyOldClick(e);
+  document.addEventListener(
+    "mousedown",
+    (e) => {
+      toggleSets.forEach((s) => {
+        s.handleAnyOldClick(e);
+      });
+    },
+    false
+  );
+  // But, that said, let's also hook into the click event just for the sake of preventing default (otherwise it messes with react Routes)
+  if (toggleSets.length) {
+    document.addEventListener("click", (e) => {
+      stoppyMcStopFace({ e, toggleSets });
     });
-  });
+  }
   return toggleSets;
+};
+// Catch specifically the 'click' event for toggles - in order to preventDefault,
+// as it doesn't work via mousedown because.. javascript.
+// (It will also run the normal handlyAnyOldClick event)
+const stoppyMcStopFace = ({
+  e,
+  toggleSets,
+}: {
+  e: Event;
+  toggleSets: Set[];
+}) => {
+  if (
+    isWithinAnyToggle(
+      e.target as HTMLElement,
+      toggleSets.map((s) => s.toggles).reduce((a, b) => [...a, ...b])
+    )
+  ) {
+    e.preventDefault();
+  }
 };
 export const toggleHide = (target: HTMLElement): void => {
   target.setAttribute("hidden", "");
@@ -60,13 +89,21 @@ export const toggleShow = (target: HTMLElement): void => {
 };
 export const toggleIsShown = (target: HTMLElement): boolean =>
   target.getAttribute("hidden") == null;
+export const isWithinAnyToggle = (
+  element: HTMLElement,
+  toggles: HTMLElement[]
+) => toggles.find((t) => t == element || t.contains(element));
+// export const isWithinAnyToggleset = (
+//   element: HTMLElement,
+//   toggles: HTMLElement[] / /not yeah
+// ) => toggles.find((t) => t == element || t.contains(element));
 export class ToggleSet {
   // Infuriating that I have to write the interface out again
   // It seems like TS doesn't current do anything with implements concept
   // Otherwise I'd have an interface that extends Set, and then implement it
   id: string;
-  toggles: [HTMLElement?];
-  targets: [HTMLElement?];
+  toggles?: HTMLElement[];
+  targets?: HTMLElement[];
   blur: boolean;
   constructor(set: Set) {
     // this.toggles = set.toggles;
@@ -74,8 +111,10 @@ export class ToggleSet {
   }
   handleAnyOldClick(e: Event) {
     // Find one of our known toggles that either is the target clicked, or contains the target
-    const toggleClicked = this.toggles.find(
-      (t) => t == e.target || t.contains(e.target as HTMLElement)
+    if (!this.toggles.length) return;
+    const toggleClicked = isWithinAnyToggle(
+      e.target as HTMLElement,
+      this.toggles
     );
     if (toggleClicked) {
       // This set's toggle was clicked!

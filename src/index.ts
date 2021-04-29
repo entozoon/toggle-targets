@@ -107,7 +107,7 @@ export class ToggleSet {
           }, 250); // JIC
         }
       }
-      return;
+      return false;
     }
     if (
       // We're not clicking a toggle and it's set to blur
@@ -116,7 +116,6 @@ export class ToggleSet {
       !this.targets.find((t) => t.contains(e.target as HTMLElement))
     ) {
       toggleHideAll(this.targets);
-      return;
     }
     // Oh, or if clicking an untoggle element!
     if (
@@ -132,7 +131,7 @@ export class ToggleSet {
       // super annoying, as I've managed to avoid using Element.closest so far
       let parentTarget = (e.target as HTMLElement).closest("[data-tt-target]");
       parentTarget && toggleHide(parentTarget as HTMLElement);
-      return;
+      return false;
     }
   }
 }

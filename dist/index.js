@@ -1,6 +1,27 @@
 "use strict";
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
+var __spreadArray = (this && this.__spreadArray) || function (to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ToggleSet = exports.toggleIsShown = exports.toggleShow = exports.toggleHideAll = exports.toggleHide = exports.initToggleTargets = void 0;
+exports.ToggleSet = exports.isWithinAnyToggle = exports.toggleIsShown = exports.toggleShow = exports.toggleHideAll = exports.toggleHide = exports.initToggleTargets = void 0;
 var initToggleTargets = function () {
     var sets = [];
     var setItems = document.querySelectorAll("[data-tt-set]");
@@ -30,10 +51,21 @@ var initToggleTargets = function () {
         toggleSets.forEach(function (s) {
             s.handleAnyOldClick(e);
         });
-    });
+    }, false);
+    if (toggleSets.length) {
+        document.addEventListener("click", function (e) {
+            stoppyMcStopFace({ e: e, toggleSets: toggleSets });
+        });
+    }
     return toggleSets;
 };
 exports.initToggleTargets = initToggleTargets;
+var stoppyMcStopFace = function (_a) {
+    var e = _a.e, toggleSets = _a.toggleSets;
+    if (exports.isWithinAnyToggle(e.target, toggleSets.map(function (s) { return s.toggles; }).reduce(function (a, b) { return __spreadArray(__spreadArray([], __read(a)), __read(b)); }))) {
+        e.preventDefault();
+    }
+};
 var toggleHide = function (target) {
     target.setAttribute("hidden", "");
 };
@@ -52,12 +84,16 @@ var toggleIsShown = function (target) {
     return target.getAttribute("hidden") == null;
 };
 exports.toggleIsShown = toggleIsShown;
+var isWithinAnyToggle = function (element, toggles) { return toggles.find(function (t) { return t == element || t.contains(element); }); };
+exports.isWithinAnyToggle = isWithinAnyToggle;
 var ToggleSet = (function () {
     function ToggleSet(set) {
         Object.assign(this, set);
     }
     ToggleSet.prototype.handleAnyOldClick = function (e) {
-        var toggleClicked = this.toggles.find(function (t) { return t == e.target || t.contains(e.target); });
+        if (!this.toggles.length)
+            return;
+        var toggleClicked = exports.isWithinAnyToggle(e.target, this.toggles);
         if (toggleClicked) {
             e.preventDefault();
             e.stopPropagation();

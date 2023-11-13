@@ -133,7 +133,10 @@ export class ToggleSet {
       // Is the target already revealed? In which case unreveal
       if (toggleIsShown(target)) {
         target && toggleHide(target);
+        toggleClicked.removeAttribute("data-tt-toggled");
       } else {
+        // Add attribute to the button while we're here
+        toggleClicked.setAttribute("data-tt-toggled", "");
         // Reveal its target item
         target && toggleShow(target);
         // Unreveal the others

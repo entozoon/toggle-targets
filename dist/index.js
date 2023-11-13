@@ -15,10 +15,14 @@ var __read = (this && this.__read) || function (o, n) {
     }
     return ar;
 };
-var __spreadArray = (this && this.__spreadArray) || function (to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ToggleSet = exports.isWithinAnyToggle = exports.toggleIsShown = exports.toggleShow = exports.toggleHideAll = exports.toggleHide = exports.initToggleTargets = void 0;
@@ -62,7 +66,7 @@ var initToggleTargets = function () {
 exports.initToggleTargets = initToggleTargets;
 var stoppyMcStopFace = function (_a) {
     var e = _a.e, toggleSets = _a.toggleSets;
-    if (exports.isWithinAnyToggle(e.target, toggleSets.map(function (s) { return s.toggles; }).reduce(function (a, b) { return __spreadArray(__spreadArray([], __read(a)), __read(b)); }))) {
+    if ((0, exports.isWithinAnyToggle)(e.target, toggleSets.map(function (s) { return s.toggles; }).reduce(function (a, b) { return __spreadArray(__spreadArray([], __read(a), false), __read(b), false); }))) {
         e.preventDefault();
     }
 };
@@ -72,7 +76,7 @@ var toggleHide = function (target) {
 exports.toggleHide = toggleHide;
 var toggleHideAll = function (targets) {
     targets.forEach(function (t) {
-        exports.toggleHide(t);
+        (0, exports.toggleHide)(t);
     });
 };
 exports.toggleHideAll = toggleHideAll;
@@ -93,7 +97,7 @@ var ToggleSet = (function () {
     ToggleSet.prototype.handleAnyOldClick = function (e) {
         if (!this.toggles.length)
             return;
-        var toggleClicked = exports.isWithinAnyToggle(e.target, this.toggles);
+        var toggleClicked = (0, exports.isWithinAnyToggle)(e.target, this.toggles);
         if (toggleClicked) {
             e.preventDefault();
             e.stopPropagation();
@@ -105,12 +109,14 @@ var ToggleSet = (function () {
             var notTargets = this.targets.filter(function (t) {
                 return t.getAttribute("data-tt-target") != dataToggle_1;
             });
-            if (exports.toggleIsShown(target)) {
-                target && exports.toggleHide(target);
+            if ((0, exports.toggleIsShown)(target)) {
+                target && (0, exports.toggleHide)(target);
+                toggleClicked.removeAttribute("data-tt-toggled");
             }
             else {
-                target && exports.toggleShow(target);
-                notTargets && exports.toggleHideAll(notTargets);
+                toggleClicked.setAttribute("data-tt-toggled", "");
+                target && (0, exports.toggleShow)(target);
+                notTargets && (0, exports.toggleHideAll)(notTargets);
                 var focus_1 = target.querySelector("[data-tt-focus]");
                 if (focus_1) {
                     setTimeout(function () {
@@ -122,7 +128,7 @@ var ToggleSet = (function () {
         }
         if (this.blur &&
             !this.targets.find(function (t) { return t.contains(e.target); })) {
-            exports.toggleHideAll(this.targets);
+            (0, exports.toggleHideAll)(this.targets);
         }
         if (e.target.getAttribute("data-tt-untoggle") != null &&
             this.targets.find(function (t) { return t.contains(e.target); })) {
@@ -130,7 +136,7 @@ var ToggleSet = (function () {
             e.stopPropagation();
             e.stopImmediatePropagation();
             var parentTarget = e.target.closest("[data-tt-target]");
-            parentTarget && exports.toggleHide(parentTarget);
+            parentTarget && (0, exports.toggleHide)(parentTarget);
             return false;
         }
     };
